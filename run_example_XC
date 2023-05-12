@@ -104,6 +104,7 @@ for XS in ${PSEDUOS[@]}; do
   ecutwfc = 50,
   ecutrho = 400,
   nbnd = 8,
+!  lspinorb=.TRUE.,
 !  occupations = 'smearing',
 !  smearing = 'gaussian',
 !  degauss = 0.005
@@ -141,6 +142,7 @@ EOF
   ibrav =  2,
   celldm(1) = 10.2076,
   nat =  2,
+!  lspinorb=.TRUE.,
   ntyp = 1,
   ecutwfc = 50,
   ecutrho = 400,
@@ -274,7 +276,11 @@ plt.xticks(ticks= [0, 0.8660, 1.8660, 2.2196, 3.2802], \
         labels=['L', '$\Gamma$', 'X', 'U', '$\Gamma$'])
 plt.ylabel("Energy (eV)")
 plt.text(2.3, 5.6, 'Fermi energy', fontsize= "small")
-plt.legend()
+
+handles, labels = plt.gca().get_legend_handles_labels()
+by_label = dict(zip(labels, handles))
+plt.legend(by_label.values(), by_label.keys())
+
 plt.savefig("si-bands.png")
 
 EOF
