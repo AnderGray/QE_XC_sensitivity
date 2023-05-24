@@ -16,12 +16,13 @@ $ECHO "the band structure of four simple systems: Si, Al, Cu, Ni."
 # set the needed environment variables
 . ../environment_variables
 
-PSEUDO_DIR=$PSEUDO_DIR/Si_pseudos
+# PSEUDO_DIR=$PSEUDO_DIR/Si_pseudos
 
 # required executables and pseudopotentials
 BIN_LIST="pw.x bands.x"
 # PSEUDO_LIST="Si.pbe-n-kjpaw_psl.1.0.0.UPF Si.pz-n-kjpaw_psl.1.0.0.UPF Si.pbe-n-rrkjus_psl.1.0.0.UPF Si.pz-n-rrkjus_psl.1.0.0.UPF"
 PSEUDO_LIST="Si_LDA.UPF Si_PBE.UPF Si_PBEsol.UPF Si.pz-n-kjpaw_psl.1.0.0.UPF Si.pbe-n-kjpaw_psl.1.0.0.UPF"
+# PSEUDO_LIST="Si_r.upf"
 
 $ECHO
 $ECHO "  executables directory: $BIN_DIR"
@@ -83,7 +84,12 @@ $ECHO "  running bands.x as: $BANDS_COMMAND"
 $ECHO
 
 # PSEDUOS=(pbe pz)
-PSEDUOS=(LDA PBEsol pz-n-kjpaw pbe-n-kjpaw)
+# PSEDUOS=(LDA PBEsol pz-n-kjpaw pbe-n-kjpaw)
+# PSEDUOS=(LDA PBEsol b3lyp hse)
+# PSEDUOS=(LDA PBE PBEsol MGGA_X_R2SCAN)
+# PSEDUOS=(XC-001I-000I-003I-130L-000I-000I)
+# PSEDUOS=(LDA PBE PBEsol BEEF-vdW)
+PSEDUOS=(BEEF-vdW)
 
 for XS in ${PSEDUOS[@]}; do
 
@@ -106,6 +112,8 @@ for XS in ${PSEDUOS[@]}; do
   ecutwfc = 50,
   ecutrho = 400,
   nbnd = 8,
+  input_dft='$XS',
+  ensemble_energies=.true.
 !  lspinorb=.TRUE.,
 !  occupations = 'smearing',
 !  smearing = 'gaussian',
@@ -118,7 +126,7 @@ for XS in ${PSEDUOS[@]}; do
 /
 
 ATOMIC_SPECIES
-  Si 28.086 Si.$XS.UPF
+  Si 28.086 Si.pbe-n-kjpaw_psl.1.0.0.UPF
 
 ATOMIC_POSITIONS (alat)
   Si 0.0 0.0 0.0
@@ -149,6 +157,8 @@ EOF
   ecutwfc = 50,
   ecutrho = 400,
   nbnd = 8
+  input_dft='$XS',
+  ensemble_energies=.true.
  /
 
 &electrons
@@ -157,7 +167,7 @@ EOF
  /
 
 ATOMIC_SPECIES
-  Si 28.086  Si.$XS.UPF
+  Si 28.086  Si.pbe-n-kjpaw_psl.1.0.0.UPF
 
 ATOMIC_POSITIONS (alat)
   Si 0.00 0.00 0.00
