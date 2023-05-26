@@ -14,6 +14,14 @@ import os
 os.environ['ASE_ESPRESSO_COMMAND']="/Users/akgray/Documents/DFT/q-e/bin/pw.x -in PREFIX.pwi > PREFIX.pwo"
 os.environ['ESPRESSO_PSEUDO']="/Users/akgray/Documents/DFT/q-e/pseudo"
 
+input_data = {
+    'system': {
+        'input_dft': 'BEEF-vdW'
+        #'ensemble_energies': '.true.'
+        }
+    }
+    
+
 # ASE_ESPRESSO_COMMAND="/path/to/pw.x -in PREFIX.pwi > PREFIX.pwo"
 pseudopotentials = {'H': 'H.pbe-kjpaw_psl.1.0.0.UPF'}
 model=build.molecule('H2', vacuum=5)
@@ -21,13 +29,13 @@ model=build.molecule('H2', vacuum=5)
 #                 tstress=True, tprnfor=True, kpts=(1, 1, 1)) #, xc='BEEF-vdW')
 
 calc = Espresso(pseudopotentials=pseudopotentials,
-                tstress=True, tprnfor=True, kpts=(1, 1, 1), xc='BEEF-vdW')
+                tstress=True, tprnfor=True, kpts=(1, 1, 1), input_data=input_data)
 
 model.calc = calc
 opt = BFGS(model, trajectory='H2.traj')
 
 
-opt.run(fmax=0.05)
+opt.run(fmax=0.005)
 
 H2_tot_energy = model.get_total_energy()
 
