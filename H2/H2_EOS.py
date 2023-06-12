@@ -21,9 +21,9 @@ import matplotlib.pyplot as plt
 os.environ['ASE_ESPRESSO_COMMAND']="/Users/akgray/Documents/DFT/q-e/bin/pw.x -in PREFIX.pwi > PREFIX.pwo"
 os.environ['ESPRESSO_PSEUDO']="/Users/akgray/Documents/DFT/q-e/pseudo"
 
-colors = ["red", "blue", "black"]
+colors = ["red", "blue", "black", "green"]
 
-functionals = ['LDA', 'PBE', 'BEEF-vdW']
+functionals = ['LDA', 'PBE', 'PBEsol', 'BEEF-vdW']
 EOS = []
 
 for (i,XC) in enumerate(functionals):
@@ -76,7 +76,7 @@ for (i,XC) in enumerate(functionals):
 
 plt.rcParams['text.usetex'] = True
 
-plt.xlabel(r'\\textit{volume} [Å^3]')
+plt.xlabel("volume [Å^3]")
 plt.ylabel("energy [ev]")
 plt.legend()
 plt.savefig("H2_EOS_XC.png")
